@@ -3,7 +3,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:yug_foundation_app/domain/models/blogs_response_model.dart';
 
-import '../../domain/models/temp_model.dart';
 import '../../utils/colors.dart';
 import 'cached_image.dart';
 

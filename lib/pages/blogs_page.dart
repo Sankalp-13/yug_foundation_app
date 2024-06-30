@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yug_foundation_app/pages/widgets/blogs_helper.dart';
 import 'package:yug_foundation_app/providers/blogs/blogs_cubit.dart';
 import 'package:yug_foundation_app/providers/blogs/blogs_states.dart';
-import '../domain/models/temp_model.dart';
 import '../utils/colors.dart';
 
 class BlogsPage extends StatefulWidget {
@@ -14,9 +14,6 @@ class BlogsPage extends StatefulWidget {
 }
 
 class _BlogsPageState extends State<BlogsPage> {
-  PostEntity post1 = PostEntity();
-  PostEntity post2 = PostEntity();
-  PostEntity post3 = PostEntity();
 
   @override
   void initState() {
@@ -26,8 +23,13 @@ class _BlogsPageState extends State<BlogsPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<PostEntity> posts = [post1, post2, post3];
     return Scaffold(
+      appBar: AppBar(
+          elevation: 0,
+          toolbarHeight: 0,
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: SystemUiOverlayStyle.dark
+      ),
       body: SafeArea(
         child: BlocConsumer<BlogsCubit, BlogsState>(
           listener: (BuildContext context, BlogsState state) {

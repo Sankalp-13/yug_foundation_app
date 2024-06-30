@@ -4,8 +4,10 @@ abstract class SurveyHomeState {}
 
 class SurveyHomeLoadingState extends SurveyHomeState {}
 
+class SurveyAnswerSentState extends SurveyHomeState {}
+
 class SurveyHomeLoadedState extends SurveyHomeState {
-  final SurveyResponseModel response;
+  final List<SurveyResponseModel> response;
 
   SurveyHomeLoadedState(this.response);
 }

@@ -3,12 +3,11 @@ import 'package:yug_foundation_app/pages/quiz_page/widget/question_numbers_widge
 import 'package:yug_foundation_app/pages/quiz_page/widget/questions_widget.dart';
 import 'package:yug_foundation_app/utils/colors.dart';
 
-import '../../domain/models/category.dart';
 import '../../domain/models/option.dart';
-import '../../domain/models/question.dart';
+import '../../domain/models/quiz_response_model.dart';
 
 class CategoryPage extends StatefulWidget {
-  final CategoriesModel category;
+  final QuizResponseModel category;
 
   const CategoryPage({super.key, required this.category}) ;
 
@@ -18,14 +17,14 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   PageController controller = PageController();
-  late Question question;
+  late Questions question;
 
   @override
   void initState() {
     super.initState();
 
     controller = PageController();
-    question = widget.category.questions.first;
+    question = widget.category.questions!.first;
   }
 
   @override
@@ -51,7 +50,7 @@ class _CategoryPageState extends State<CategoryPage> {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: QuestionNumbersWidget(
-              questions: widget.category.questions,
+              questions: widget.category.questions!,
               question: question,
               onClickedNumber: (index) =>
                   nextQuestion(index: index, jump: true),
@@ -76,7 +75,7 @@ class _CategoryPageState extends State<CategoryPage> {
     final indexPage = index ?? nextPage.toInt();
 
     setState(() {
-      question = widget.category.questions[indexPage];
+      question = widget.category.questions![indexPage];
     });
 
     if (jump) {

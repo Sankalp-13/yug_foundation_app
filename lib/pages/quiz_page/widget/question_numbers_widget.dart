@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:yug_foundation_app/utils/colors.dart';
 
 import '../../../domain/models/question.dart';
+import '../../../domain/models/quiz_response_model.dart';
 
 class QuestionNumbersWidget extends StatelessWidget {
-  final List<Question> questions;
-  final Question question;
+  final List<Questions> questions;
+  final Questions question;
   final ValueChanged<int> onClickedNumber;
 
   const QuestionNumbersWidget({super.key,

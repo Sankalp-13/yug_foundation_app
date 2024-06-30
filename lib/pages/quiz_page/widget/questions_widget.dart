@@ -3,9 +3,10 @@ import 'package:yug_foundation_app/domain/models/category.dart';
 
 import '../../../domain/models/option.dart';
 import '../../../domain/models/question.dart';
+import '../../../domain/models/quiz_response_model.dart';
 import 'options_widget.dart';
 class QuestionsWidget extends StatelessWidget {
-  final CategoriesModel category;
+  final QuizResponseModel category;
   final PageController controller;
   final ValueChanged<int> onChangedPage;
   final ValueChanged<Option> onClickedOption;
@@ -21,16 +22,16 @@ class QuestionsWidget extends StatelessWidget {
   Widget build(BuildContext context) => PageView.builder(
         onPageChanged: onChangedPage,
         controller: controller,
-        itemCount: category.questions.length,
+        itemCount: category.questions?.length,
         itemBuilder: (context, index) {
-          final question = category.questions[index];
+          final question = category.questions?[index];
 
-          return buildQuestion(question: question);
+          return buildQuestion(question: question!);
         },
       );
 
   Widget buildQuestion({
-    required Question question,
+    required Questions question,
   }) =>
       Container(
         padding: const EdgeInsets.all(16),
@@ -39,7 +40,7 @@ class QuestionsWidget extends StatelessWidget {
           children: [
             const SizedBox(height: 32),
             Text(
-              question.text,
+              question.text!,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
             SizedBox(height: 8),

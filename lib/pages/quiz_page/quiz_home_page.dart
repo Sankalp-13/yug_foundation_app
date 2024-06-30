@@ -1,14 +1,24 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yug_foundation_app/domain/models/category.dart';
+import 'package:yug_foundation_app/domain/models/quiz_response_model.dart';
 import 'package:yug_foundation_app/pages/quiz_page/widget/category_detail_widget.dart';
 import 'package:yug_foundation_app/pages/quiz_page/widget/category_header_widget.dart';
+import 'package:yug_foundation_app/providers/quiz/quiz_cubit.dart';
 
 import '../../data/categories.dart';
+import '../../providers/Quiz/Quiz_states.dart';
+import '../../utils/colors.dart';
 import 'category_page.dart';
 
-class QuizHomePage extends StatelessWidget {
+class QuizHomePage extends StatefulWidget {
   const QuizHomePage({super.key});
+
+  @override
+  State<QuizHomePage> createState() => _QuizHomePageState();
+}
+
+class _QuizHomePageState extends State<QuizHomePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -19,71 +29,103 @@ class QuizHomePage extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(16),
               alignment: Alignment.centerLeft,
-              child: SafeArea(child: Center(child: Text("Quizzes", style: Theme.of(context).textTheme.displayLarge,))),
+              child: SafeArea(
+                  child: Center(
+                      child: Text(
+                "Quizzes",
+                style: Theme.of(context).textTheme.displayLarge,
+              ))),
             ),
           ),
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              color: Colors.transparent
-            ),
+            decoration: const BoxDecoration(color: Colors.transparent),
           ),
         ),
-        body: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(16),
-          children: [
-            SizedBox(height: 8),
-            buildCategories(),
-            SizedBox(height: 32),
-            buildPopular(context),
-          ],
-        ),
-      );
-
-  Widget buildCategories() => Container(
-        height: 300,
-        child: GridView(
-          primary: false,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 4 / 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-          ),
-          children: categories
-              .map((category) => CategoryHeaderWidget(category: category))
-              .toList(),
-        ),
-      );
-
-  Widget buildPopular(BuildContext context) => Column(
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Popular',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(height: 16),
-          Container(
-            height: 240,
-            child: ListView(
+        body: BlocConsumer<QuizCubit, QuizState>(
+            listener: (BuildContext context, QuizState state) {
+              if (state is QuizErrorState) {
+                SnackBar snackBar = SnackBar(
+                  content: Text(state.error),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            },
+            builder: (context, state) {
+              if (state is QuizLoadingState) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: ColorConstants.mainThemeColor,
+                  ),
+                );
+              }
+              if (state is QuizLoadedState){
+            return ListView(
               physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: categories
-                  .map((category) => CategoryDetailWidget(
-                        category: category,
-                        onSelectedCategory: (CategoriesModel category) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                CategoryPage(category: category),
-                          ));
+              padding: const EdgeInsets.all(16),
+              children: [
+                SizedBox(height: 8),
+                Container(
+                  height: 300,
+                  child: GridView.builder(
+                    primary: false,
+                    itemCount: 4,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 4 / 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      return CategoryHeaderWidget(category: state.response[index],);
+                    },
+                  ),
+                ),
+                SizedBox(height: 32),
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Popular',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Container(
+                      height: 240,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CategoryDetailWidget(
+                            category: state.response[index],
+                            onSelectedCategory: (QuizResponseModel category) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    CategoryPage(category: category),
+                              ));
+                            },
+                          );
                         },
-                      ))
-                  .toList(),
-            ),
-          )
-        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            );}
+
+              return const Center(
+                child: Text("Something went wrong!"),
+              );
+          }
+        ),
       );
+
+  @override
+  void initState() {
+    super.initState();
+
+    BlocProvider.of<QuizCubit>(context).getQuiz();
+
+  }
 }

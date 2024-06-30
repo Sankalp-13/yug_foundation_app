@@ -1,54 +1,15 @@
 class SurveyResponseModel {
-  int? status;
-  List<Data>? data;
-
-  SurveyResponseModel({this.status, this.data});
-
-  SurveyResponseModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Data {
   int? id;
   String? topic;
   String? description;
-  String? createdAt;
-  String? updatedAt;
-  int? userId;
   List<Questions>? questions;
 
-  Data(
-      {this.id,
-        this.topic,
-        this.description,
-        this.createdAt,
-        this.updatedAt,
-        this.userId,
-        this.questions});
+  SurveyResponseModel({this.id, this.topic, this.description, this.questions});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SurveyResponseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     topic = json['topic'];
     description = json['description'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    userId = json['userId'];
     if (json['questions'] != null) {
       questions = <Questions>[];
       json['questions'].forEach((v) {
@@ -62,9 +23,6 @@ class Data {
     data['id'] = this.id;
     data['topic'] = this.topic;
     data['description'] = this.description;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['userId'] = this.userId;
     if (this.questions != null) {
       data['questions'] = this.questions!.map((v) => v.toJson()).toList();
     }
@@ -73,42 +31,26 @@ class Data {
 }
 
 class Questions {
-  int? id;
+  List<String>? options;
   String? text;
   String? type;
-  String? correctAnswer;
-  String? createdAt;
-  String? updatedAt;
-  int? surveyId;
+  int? id;
 
-  Questions(
-      {this.id,
-        this.text,
-        this.type,
-        this.correctAnswer,
-        this.createdAt,
-        this.updatedAt,
-        this.surveyId});
+  Questions({this.options, this.text, this.type, this.id});
 
   Questions.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    options = json['options'].cast<String>();
     text = json['text'];
     type = json['type'];
-    correctAnswer = json['correctAnswer'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    surveyId = json['surveyId'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['options'] = this.options;
     data['text'] = this.text;
     data['type'] = this.type;
-    data['correctAnswer'] = this.correctAnswer;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['surveyId'] = this.surveyId;
+    data['id'] = this.id;
     return data;
   }
 }

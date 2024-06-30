@@ -5,7 +5,7 @@ class API{
   final Dio _dio = Dio();
 
   API(){
-    _dio.options.baseUrl="https://googlex-yugx-backend.vercel.app";
+    _dio.options.baseUrl="https://googlexyugxbackend-uplniytx2q-el.a.run.app";
     _dio.interceptors.add(PrettyDioLogger());
   }
 

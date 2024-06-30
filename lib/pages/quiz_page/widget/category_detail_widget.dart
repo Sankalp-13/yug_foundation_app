@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:yug_foundation_app/domain/models/category.dart';
+import 'package:yug_foundation_app/utils/colors.dart';
+
+import '../../../domain/models/quiz_response_model.dart';
 
 class CategoryDetailWidget extends StatelessWidget {
-  final CategoriesModel category;
-  final ValueChanged<CategoriesModel> onSelectedCategory;
+  final QuizResponseModel category;
+  final ValueChanged<QuizResponseModel> onSelectedCategory;
 
   const CategoryDetailWidget({super.key,
     required this.category,
@@ -22,12 +24,12 @@ class CategoryDetailWidget extends StatelessWidget {
               buildImage(),
               SizedBox(height: 12),
               Text(
-                category.categoryName,
+                category.topic!,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               SizedBox(height: 4),
               Text(
-                category.description,
+                category.created!,
                 style: TextStyle(fontSize: 14),
               )
             ],
@@ -38,9 +40,9 @@ class CategoryDetailWidget extends StatelessWidget {
   Widget buildImage() => Container(
         height: 150,
         decoration: BoxDecoration(
-          color: category.backgroundColor,
+          color: ColorConstants.lightWidgetColor,
           borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(image: AssetImage(category.imageUrl)),
+          image: DecorationImage(image: NetworkImage("https://appxcontent.kaxa.in/quiz_series/2024-04-01-0.05692524218308659.png")),
         ),
       );
 }

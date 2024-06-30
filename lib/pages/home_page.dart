@@ -9,12 +9,13 @@ import 'package:yug_foundation_app/pages/sleep_tracker_page.dart';
 import 'package:yug_foundation_app/pages/survey_home_page.dart';
 import 'package:yug_foundation_app/pages/task_page.dart';
 
+import '../domain/models/profile_response_model.dart';
 import '../utils/colors.dart';
 import 'period_tracker_dashboard.dart';
-import 'survey_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  ProfileResponseModel profileResponseModel;
+  HomePage({Key? key, required this.profileResponseModel}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,7 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  String userName="User1";
+  String userName="User";
 
 
   @override
@@ -41,10 +42,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         toolbarHeight: 0,
         backgroundColor: Colors.transparent,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          systemNavigationBarColor: Colors.grey, // Navigation bar
-          // statusBarColor: Colors.pink, // Status bar
-        ),
+        systemOverlayStyle: SystemUiOverlayStyle.light
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -64,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16,color: Colors.white),
                   ),
                   Text(
-                    "$userName",
+                    "${widget.profileResponseModel.name}",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white,fontSize: 22),
                   ),
                 ],
