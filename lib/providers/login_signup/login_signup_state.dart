@@ -21,7 +21,7 @@ class OtpSentState extends LoginState{
 }
 
 class InvalidEmailState extends LoginState{
-  final LoginError errorMsg;
+  final String errorMsg;
   InvalidEmailState(this.errorMsg);
 }
 

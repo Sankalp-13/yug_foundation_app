@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
           if (state is InvalidEmailState) {
             context.loaderOverlay.hide();
             SnackBar snackBar = SnackBar(
-              content: Text(state.errorMsg.message!),
+              content: Text(state.errorMsg),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
@@ -91,48 +91,47 @@ class _SignUpPageState extends State<SignUpPage> {
                               "Tell us\nabout\nyourself 👋",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ))),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    SizedBox(
-                      width: width * 0.4,
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: width * 0.13,
-                            backgroundImage: (_imgFile == null)
-                                ? const AssetImage('assets/people.png')
-                                : FileImage(_imgFile!) as ImageProvider,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Text("Upload Photo"),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor:
-                                      ColorConstants.mainThemeColor,
-                                  foregroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5)))),
-                              onPressed: () async {
-                                final ImagePicker picker = ImagePicker();
-                                final XFile? img = await picker.pickImage(
-                                  source: ImageSource.gallery,
-                                  // alternatively, use ImageSource.gallery
-                                );
-                                if (img == null) return;
-                                setState(() {
-                                  _imgFile = File(
-                                      img.path); // convert it to a Dart:io file
-                                });
-                              },
-                              child: const Text("Select Image"))
-                        ],
-                      ),
-                    )
+
+                    //TODO: send profile pic
+                    // SizedBox(
+                    //   width: width * 0.4,
+                    //   child: Column(
+                    //     children: [
+                    //       CircleAvatar(
+                    //         radius: width * 0.13,
+                    //         backgroundImage: (_imgFile == null)
+                    //             ? const AssetImage('assets/people.png')
+                    //             : FileImage(_imgFile!) as ImageProvider,
+                    //       ),
+                    //       const SizedBox(
+                    //         height: 8,
+                    //       ),
+                    //       const Text("Upload Photo"),
+                    //       ElevatedButton(
+                    //           style: ElevatedButton.styleFrom(
+                    //               elevation: 0,
+                    //               backgroundColor:
+                    //                   ColorConstants.mainThemeColor,
+                    //               foregroundColor: Colors.white,
+                    //               shape: const RoundedRectangleBorder(
+                    //                   borderRadius: BorderRadius.all(
+                    //                       Radius.circular(5)))),
+                    //           onPressed: () async {
+                    //             final ImagePicker picker = ImagePicker();
+                    //             final XFile? img = await picker.pickImage(
+                    //               source: ImageSource.gallery,
+                    //               // alternatively, use ImageSource.gallery
+                    //             );
+                    //             if (img == null) return;
+                    //             setState(() {
+                    //               _imgFile = File(
+                    //                   img.path); // convert it to a Dart:io file
+                    //             });
+                    //           },
+                    //           child: const Text("Select Image"))
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
                 const SizedBox(
@@ -339,9 +338,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                     "",
                                     nameController.text);
                               },
-                              child: const Text(
-                                "Verify Email",
-                                style: TextStyle(fontSize: 18),
+                              child: Center(
+                                child: const Text(
+                                  "Verify Email",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               )),
                         ),
                       ),

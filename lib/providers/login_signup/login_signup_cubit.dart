@@ -22,13 +22,13 @@ class LoginCubit extends Cubit<LoginState>{
       emit(OtpSentState(response.data['otpId']));
       tempEmail = email;
     }on DioException catch(ex){
-      if(ex.response?.statusCode==401||ex.response?.statusCode==400){
-        LoginError.fromJson(ex.response?.data);
-        if (ex.response!.data["message"].length==1) {
-          emit(InvalidEmailState(LoginError.fromJson(ex.response?.data)));
-        }else{
-          emit(InvalidEmailState(ex.response!.data["message"][0]));
-        }
+      if(ex.response?.statusCode==500){
+        // LoginError.fromJson(ex.response?.data);
+        // if (ex.response!.data["message"].length==1) {
+        //   emit(InvalidEmailState(LoginError.fromJson(ex.response?.data)));
+        // }else{
+          emit(InvalidEmailState("No user found! Please Sign up!"));
+        // }
 
       }else if(ex.type == DioExceptionType.badResponse) {
         emit(LoginErrorState("Something went wrong"));
@@ -49,9 +49,9 @@ class LoginCubit extends Cubit<LoginState>{
       tempEmail = email;
     }on DioException catch(ex){
       if(ex.response?.statusCode==401||ex.response?.statusCode==400){
-          emit(InvalidEmailState(ex.response!.data["message"]));
+          emit(InvalidEmailState(ex.response!.data["message"]["message"][0]));
       }else if(ex.type == DioExceptionType.badResponse) {
-        emit(LoginErrorState("Something went wrong"));
+        emit(LoginErrorState("User Already Exists!"));
       }else if(ex.type == DioExceptionType.unknown||ex.type == DioExceptionType.connectionError||ex.type == DioExceptionType.connectionTimeout){
         emit(LoginErrorState("Can't connect!"));
       }else{

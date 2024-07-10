@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 context.loaderOverlay.hide();
                 SnackBar snackBar = SnackBar(
-                  content: Text(state.errorMsg.message![0]),
+                  content: Text(state.errorMsg),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }

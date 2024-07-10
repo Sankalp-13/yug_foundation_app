@@ -36,10 +36,10 @@ MaterialColor getMaterialColor(Color color) {
 }
 
 class ColorConstants {
-  static Color mainThemeColor = hexToColor('#9c2741');
-  static Color lightWidgetColor = hexToColor('#eeb6c3');
-  static Color darkWidgetColor = hexToColor('#cf3e5f');
-  static Color accentColor = hexToColor('#bee2d4');
+  static Color mainThemeColor = hexToColor('#EB781A');
+  static Color lightWidgetColor = hexToColor('#F3BE33');
+  static Color darkWidgetColor = hexToColor('#D31F16');
+  static Color accentColor = hexToColor('#73504B');
 
 }
 

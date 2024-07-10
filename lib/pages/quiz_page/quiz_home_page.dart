@@ -59,7 +59,8 @@ class _QuizHomePageState extends State<QuizHomePage> {
                 );
               }
               if (state is QuizLoadedState){
-            return ListView(
+            return state.response.length !=0?
+            ListView(
               physics: BouncingScrollPhysics(),
               padding: const EdgeInsets.all(16),
               children: [
@@ -68,7 +69,7 @@ class _QuizHomePageState extends State<QuizHomePage> {
                   height: 300,
                   child: GridView.builder(
                     primary: false,
-                    itemCount: 4,
+                    itemCount: state.response.length >=4?4:state.response.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 4 / 3,
@@ -96,6 +97,7 @@ class _QuizHomePageState extends State<QuizHomePage> {
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
+                        itemCount: state.response.length,
                         itemBuilder: (BuildContext context, int index) {
                           return CategoryDetailWidget(
                             category: state.response[index],
@@ -112,7 +114,8 @@ class _QuizHomePageState extends State<QuizHomePage> {
                   ],
                 ),
               ],
-            );}
+            ):Expanded(child: Center(child: Text("There are no quizzes Available right now!",style: Theme.of(context).textTheme.bodyLarge,),))
+            ;}
 
               return const Center(
                 child: Text("Something went wrong!"),

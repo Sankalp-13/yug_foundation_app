@@ -146,7 +146,7 @@ class _SurveyHomepageState extends State<SurveyHomepage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(5)))),
                                         onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyPage(ques: state.response[index].questions!, title: state.response[index].topic!, des: state.response[index].description!)));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyPage(ques: state.response[index].questions!, title: state.response[index].topic!, des: state.response[index].description!,surveyId: state.response[index].id!)));
                                         },
                                         child: Text(
                                           "Take Survey",

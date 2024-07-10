@@ -14,7 +14,6 @@ class BlogsPage extends StatefulWidget {
 }
 
 class _BlogsPageState extends State<BlogsPage> {
-
   @override
   void initState() {
     BlocProvider.of<BlogsCubit>(context).getBlogs();
@@ -28,8 +27,7 @@ class _BlogsPageState extends State<BlogsPage> {
           elevation: 0,
           toolbarHeight: 0,
           backgroundColor: Colors.transparent,
-          systemOverlayStyle: SystemUiOverlayStyle.dark
-      ),
+          systemOverlayStyle: SystemUiOverlayStyle.dark),
       body: SafeArea(
         child: BlocConsumer<BlogsCubit, BlogsState>(
           listener: (BuildContext context, BlogsState state) {
@@ -49,38 +47,47 @@ class _BlogsPageState extends State<BlogsPage> {
               );
             }
             if (state is BlogsLoadedState) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 22),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const ListHeading("Featured", 0),
-                      SizedBox(
-                          height: 250.0,
-                          child: ListView.builder(
-                            itemCount: state.response.data!.length >= 3?3:state.response.data?.length ?? 0,
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            //            physics: ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return PostCard(state.response.data![index],
-                                  isFeaturedList: true);
-                            },
-                          )),
-                      const ListHeading('Latest', 0),
-                      Flexible(
-                        fit: FlexFit.loose,
-                        child: PostsList(
-                          posts: state.response.data!,
+              return state.response.data?.length != 0
+                  ? SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0, top: 22),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const ListHeading("Featured", 0),
+                            SizedBox(
+                                height: 250.0,
+                                child: ListView.builder(
+                                  itemCount: state.response.data!.length >= 3
+                                      ? 3
+                                      : state.response.data?.length ?? 0,
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  //            physics: ClampingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return PostCard(state.response.data![index],
+                                        isFeaturedList: true);
+                                  },
+                                )),
+                            const ListHeading('Latest', 0),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: PostsList(
+                                posts: state.response.data!,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    )
+                  : Center(
+                  child: Text(
+                    "There are no blogs Available right now!",
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                ),
-              );
+                                      );
             }
-        
+
             return const Center(
               child: Text("Something went wrong!"),
             );

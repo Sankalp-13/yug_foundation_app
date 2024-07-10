@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-// import 'package:yug_foundation_app/domain/models/Task_response_model.dart';
+import 'package:yug_foundation_app/domain/models/task_response_model.dart';
 
 import 'api/api.dart';
 
@@ -10,7 +10,7 @@ class TaskRepo {
   API api = API();
 
 
-  Future<Response> getTasks(String token,int id) async {
+  Future<TasksResponseModel> getTasks(String token,int id) async {
     try {
       Response response =
       await api.sendRequest.get("/tasks/fetch/$id",
@@ -19,20 +19,22 @@ class TaskRepo {
             HttpHeaders.authorizationHeader: "Bearer $token"
           }));
 
-      return response;
+      return TasksResponseModel.fromJson(response.data);
     } catch (ex) {
       rethrow;
     }
   }
 
 
-  Future<Response> sendAnswer(String token,String ans) async {
-
-    var body = ans;
+  Future<Response> completeTask(String token,int id) async {
+    print("/tasks/$id");
+    var body = {
+      "status": "COMPLETED"
+    };
 
     try {
       Response response =
-      await api.sendRequest.post("/Task/Taskresponse",
+      await api.sendRequest.patch("/tasks/$id",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.authorizationHeader: "Bearer $token"

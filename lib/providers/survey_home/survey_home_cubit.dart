@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:yug_foundation_app/providers/survey_home/survey_home_states.dart';
 
+import '../../domain/models/profile_response_model.dart';
 import '../../domain/models/survey_response_model.dart';
 import '../../domain/repository/survey_repo.dart';
 
@@ -16,7 +19,8 @@ class SurveyHomeCubit extends Cubit<SurveyHomeState>{
       emit(SurveyHomeLoadingState());
 
       String? token = await storage.read(key: "accessToken");
-      List<SurveyResponseModel> surveyHome = await surveyRepo.getSurveys(token!);
+      int id = ProfileResponseModel.fromJson(jsonDecode((await storage.read(key: "profile"))!)).id!;
+      List<SurveyResponseModel> surveyHome = await surveyRepo.getSurveys(token!,id);
       emit(SurveyHomeLoadedState(surveyHome));
     }on DioException catch(ex){
       if(ex.type == DioExceptionType.badResponse) {
@@ -29,12 +33,14 @@ class SurveyHomeCubit extends Cubit<SurveyHomeState>{
     }
   }
 
-  Future<void> sendAnswers(String ans) async {
+  Future<void> sendAnswers(String ans,int surveyId) async {
     try{
       emit(SurveyHomeLoadingState());
       String? token = await storage.read(key: "accessToken");
-      await surveyRepo.sendAnswer(token!,ans);
-      List<SurveyResponseModel> surveyHome = await surveyRepo.getSurveys(token);
+      await surveyRepo.sendAnswer(token!,ans,surveyId);
+
+      int id = ProfileResponseModel.fromJson(jsonDecode((await storage.read(key: "profile"))!)).id!;
+      List<SurveyResponseModel> surveyHome = await surveyRepo.getSurveys(token,id);
       emit(SurveyHomeLoadedState(surveyHome));
     }on DioException catch(ex){
       if(ex.type == DioExceptionType.badResponse) {

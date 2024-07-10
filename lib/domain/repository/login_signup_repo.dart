@@ -47,7 +47,7 @@ class LoginRepo {
   Future<Response> signUp(String email,int age, String birthday, String location,String gender,String contact, String picture,String name) async {
     var body ={
       "name": name,
-      "age": 0,
+      "age": age,
       "birthday": birthday,
       "location": location,
       "gender": gender,

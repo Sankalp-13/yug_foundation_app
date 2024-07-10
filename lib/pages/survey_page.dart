@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -10,10 +11,11 @@ import '../providers/survey_home/survey_home_states.dart';
 import '../utils/colors.dart';
 
 class SurveyPage extends StatefulWidget {
-    String title;
+  String title;
   List<Questions> ques;
   String des;
-  SurveyPage({super.key,required this.ques,required this.title,required this.des});
+  int surveyId;
+  SurveyPage({super.key,required this.ques,required this.title,required this.des,required this.surveyId});
 
   @override
   State<SurveyPage> createState() => _SurveyPageState();
@@ -25,7 +27,7 @@ class _SurveyPageState extends State<SurveyPage> {
   // Answers ans = Answers();
 
   late List<String> ans;
-
+  List<String> boolOptions = ["True","False"];
 
   @override
   void initState() {
@@ -55,6 +57,7 @@ class _SurveyPageState extends State<SurveyPage> {
             }
             if(state is SurveyHomeLoadedState){
               context.loaderOverlay.hide();
+              Navigator.pop(context);
             }
 
           }, builder: (context, state) {
@@ -105,6 +108,7 @@ class _SurveyPageState extends State<SurveyPage> {
                                       .titleSmall
                                       ?.copyWith(color: Colors.black.withOpacity(0.6)),
                                 ),
+                                SizedBox(height: 2,),
                                 // SizedBox(
                                 //   child: TextField(
                                 //     style: const TextStyle(fontSize: 14),
@@ -121,7 +125,24 @@ class _SurveyPageState extends State<SurveyPage> {
                                 //             const OutlineInputBorder(borderSide: BorderSide.none)),
                                 //   ),
                                 // ),
-                                TextFormField(
+                                if(widget.ques[index].type=="MULTIPLE_CHOICE")  Column(
+                                    children: widget.ques[index].options!
+                                        .map((option) => [
+                                      Row(
+                                        children: [
+                                          Radio<String>(
+                                            value: option,
+                                            groupValue: ans[index],
+                                            onChanged: (v) =>
+                                                setState(() => ans[index] = v!),
+                                          ),
+                                          Expanded(child: Text(option)),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8,)
+                                    ]).expand((w) => w)
+                                  .toList()),
+                                if(widget.ques[index].type=="OPEN_ENDED") TextFormField(
                                   style: const TextStyle(fontSize: 14),
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
@@ -140,6 +161,20 @@ class _SurveyPageState extends State<SurveyPage> {
                                     ans[index] = value??"";
                                   },
                                 ),
+                                if(widget.ques[index].type=="BOOLEAN")  Row(
+                                    children: boolOptions
+                                        .map((option) => [
+                                      Radio<String>(
+                                        value: option,
+                                        groupValue: ans[index],
+                                        onChanged: (v) =>
+                                            setState(() => ans[index]= v!),
+                                      ),
+                                      Text(option),
+                                      const SizedBox(width: 16)
+                                    ])
+                                        .expand((w) => w)
+                                        .toList()),
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -153,40 +188,42 @@ class _SurveyPageState extends State<SurveyPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor:
-                        ColorConstants.mainThemeColor,
-                        foregroundColor: Colors.white,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(5)))),
-                    onPressed: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyPage(ques: state.response.data![index].questions!, title: state.response.data![index].topic!, des: state.response.data![index].description!)));
+                  Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor:
+                          ColorConstants.mainThemeColor,
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(5)))),
+                      onPressed: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyPage(ques: state.response.data![index].questions!, title: state.response.data![index].topic!, des: state.response.data![index].description!)));
 
-                      SurveyAnswerRequestModel _surveyAnswerRequestModel = SurveyAnswerRequestModel();
-                      List<Answers> temp=[];
-                      for(int i=0;i<ans.length;i++){
-                        Answers a = Answers();
-                        a.questionId = widget.ques[i].id;
-                        a.response = ans[i];
-                        temp.add(a);
-                      }
+                        SurveyAnswerRequestModel _surveyAnswerRequestModel = SurveyAnswerRequestModel();
+                        List<Answers> temp=[];
+                        for(int i=0;i<ans.length;i++){
+                          Answers a = Answers();
+                          a.questionId = widget.ques[i].id;
+                          a.response = ans[i];
+                          temp.add(a);
+                        }
 
-                      _surveyAnswerRequestModel.answers = temp;
-                      String jsonAnswers = jsonEncode(_surveyAnswerRequestModel.toJson());
-                      print(jsonAnswers);
+                        _surveyAnswerRequestModel.answers = temp;
+                        String jsonAnswers = jsonEncode(_surveyAnswerRequestModel.toJson());
+                        print(jsonAnswers);
 
-                      BlocProvider.of<SurveyHomeCubit>(context).sendAnswers(jsonAnswers);
-                    },
-                    child: Text(
-                      "Submit Survey",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(
-                        color: Colors.white,
+                        BlocProvider.of<SurveyHomeCubit>(context).sendAnswers(jsonAnswers,widget.surveyId);
+                      },
+                      child: Text(
+                        "Submit Survey",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

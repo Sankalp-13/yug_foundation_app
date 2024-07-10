@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -337,17 +335,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: width*0.3,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(elevation: 0,backgroundColor: ColorConstants.mainThemeColor,foregroundColor: Colors.white,shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
-                                    onPressed: ()  {
-                                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomePage()),(Route<dynamic> route) => false);
-                                      BlocProvider.of<ProfileCubit>(context).updateProfileState();
-                                    },
-                                    child: const Text("Update",style: TextStyle(fontSize: 18),)),
-                              ),
-                              SizedBox(width: 18,),
+                              // SizedBox(
+                              //   width: width*0.3,
+                              //   child: ElevatedButton(
+                              //       style: ElevatedButton.styleFrom(elevation: 0,backgroundColor: ColorConstants.mainThemeColor,foregroundColor: Colors.white,shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5)))),
+                              //       onPressed: ()  {
+                              //         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomePage()),(Route<dynamic> route) => false);
+                              //         BlocProvider.of<ProfileCubit>(context).updateProfileState();
+                              //       },
+                              //       child: const Text("Update",style: TextStyle(fontSize: 18),)),
+                              // ),
+                              // SizedBox(width: 18,),
                               SizedBox(
                                 width: width*0.3,
                                 child: ElevatedButton(
@@ -420,50 +418,52 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 actionsAlignment: MainAxisAlignment.center,
                 actions: <Widget>[
-                  SizedBox(
-                    width: w * 120,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(16))),
-                          side:
-                          BorderSide(color: ColorConstants.mainThemeColor),
-                          foregroundColor: ColorConstants.mainThemeColor),
-                      onPressed: () {
-                        FlutterSecureStorage().deleteAll();
-                        Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context)=> const LoginPage()),(route) => false);
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16))),
+                        side:
+                        BorderSide(color: ColorConstants.mainThemeColor),
+                        foregroundColor: ColorConstants.mainThemeColor),
+                    onPressed: () {
+                      FlutterSecureStorage().deleteAll();
+                      Navigator.pushAndRemoveUntil(context,  MaterialPageRoute(builder: (context)=> const LoginPage()),(route) => false);
 
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
                         child: Text(
                           "Logout",
+                          maxLines: 1,
                           style: TextStyle(
                               fontSize: 17 * w, fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: w * 120,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorConstants.mainThemeColor,
-                        foregroundColor: Colors.white,
-                        // Background color
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(16))),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorConstants.mainThemeColor,
+                      foregroundColor: Colors.white,
+                      // Background color
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(16))),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
 
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
                         child: Text(
                           "Cancel",
+                          maxLines: 1,
                           style: TextStyle(
                               fontSize: 17 * w, fontWeight: FontWeight.w500),
                         ),

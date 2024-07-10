@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:yug_foundation_app/domain/models/profile_response_model.dart';
+import 'package:yug_foundation_app/domain/models/task_response_model.dart';
 import 'package:yug_foundation_app/providers/tasks/task_states.dart';
 
 import '../../domain/repository/Task_repo.dart';
@@ -18,8 +19,27 @@ class TasksCubit extends Cubit<TasksState>{
       emit(TasksLoadingState());
       String? token = await storage.read(key: "accessToken");
       int id = ProfileResponseModel.fromJson(jsonDecode((await storage.read(key: "profile"))!)).id!;
-      Response Tasks = await tasksRepo.getTasks(token!,id);
-      emit(TasksLoadedState());
+      TasksResponseModel Tasks = await tasksRepo.getTasks(token!,id);
+      emit(TasksLoadedState(Tasks));
+    }on DioException catch(ex){
+      if(ex.type == DioExceptionType.badResponse) {
+        emit(TasksErrorState("Something went wrong"));
+      }else if(ex.type == DioExceptionType.unknown||ex.type == DioExceptionType.connectionError||ex.type == DioExceptionType.connectionTimeout){
+        emit(TasksErrorState("Can't connect to server!"));
+      }else{
+        emit(TasksErrorState(ex.type.toString()));
+      }
+    }
+  }
+
+  Future<void> completeTask(int id) async {
+    try{
+      emit(TasksLoadingState());
+      String? token = await storage.read(key: "accessToken");
+      await tasksRepo.completeTask(token!,id);
+      int uid = ProfileResponseModel.fromJson(jsonDecode((await storage.read(key: "profile"))!)).id!;
+      TasksResponseModel Tasks = await tasksRepo.getTasks(token,uid);
+      emit(TasksLoadedState(Tasks));
     }on DioException catch(ex){
       if(ex.type == DioExceptionType.badResponse) {
         emit(TasksErrorState("Something went wrong"));

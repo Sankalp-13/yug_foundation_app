@@ -136,9 +136,9 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
   void initState() {
     BlocProvider.of<SleepTrackerCubit>(context).checkIfAsleep();
     super.initState();
-    _initialize();
-    _isAndroidPermissionGranted();
-    _requestPermissions();
+    // _initialize();
+    // _isAndroidPermissionGranted();
+    // _requestPermissions();
   }
 
   @override
@@ -254,8 +254,6 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
             double max = state.userSleep.days
                 .reduce((curr, next) => curr > next ? curr : next);
 
-            ///max value calc
-
             final barGroup1 = makeGroupData(0, state.userSleep.days[0], max);
             final barGroup2 = makeGroupData(1, state.userSleep.days[1], max);
             final barGroup3 = makeGroupData(2, state.userSleep.days[2], max);
@@ -263,6 +261,7 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
             final barGroup5 = makeGroupData(4, state.userSleep.days[4], max);
             final barGroup6 = makeGroupData(5, state.userSleep.days[5], max);
             final barGroup7 = makeGroupData(6, state.userSleep.days[6], max);
+
 
             titles = ['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
             showingBarGroups = [
@@ -284,6 +283,8 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
               }
             }
 
+            double avg = count != 0?sum/count:0;
+
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -303,7 +304,7 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
                     style: Theme.of(context).textTheme.titleLarge,
                     children: <TextSpan>[
                       TextSpan(
-                          text: count != 0 ? '$sum' : '',
+                          text: count != 0 ? avg.toStringAsFixed(1) : '',
                           style:
                               TextStyle(color: ColorConstants.mainThemeColor)),
                     ],
@@ -351,7 +352,7 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
                                     color: Colors.grey),
                           ),
                           Text(
-                            "82%",
+                            ((avg/7.5)*100).toStringAsFixed(1),
                             style: Theme.of(context).textTheme.titleLarge,
                           )
                         ],

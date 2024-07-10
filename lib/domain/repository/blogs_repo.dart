@@ -12,7 +12,7 @@ class BlogsRepo {
   Future<BlogsResponseModel> getBlogs(String token) async {
     try {
       Response response =
-      await api.sendRequest.get("/blog?region=general",
+      await api.sendRequest.get("/blog/all",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.authorizationHeader: "Bearer $token"

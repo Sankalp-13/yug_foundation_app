@@ -84,6 +84,7 @@ class MyApp extends StatelessWidget {
         );
       },
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Athena',
         theme: ThemeData(
           colorSchemeSeed: ColorConstants.mainThemeColor,

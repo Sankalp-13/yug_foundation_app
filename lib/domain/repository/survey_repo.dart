@@ -10,10 +10,10 @@ class SurveyRepo {
   API api = API();
 
 
-  Future<List<SurveyResponseModel>> getSurveys(String token) async {
+  Future<List<SurveyResponseModel>> getSurveys(String token,int id) async {
     try {
       Response response =
-      await api.sendRequest.get("/survey/universe",
+      await api.sendRequest.get("/survey/user/$id",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.authorizationHeader: "Bearer $token"
@@ -28,13 +28,13 @@ class SurveyRepo {
   }
 
 
-  Future<Response> sendAnswer(String token,String ans) async {
+  Future<Response> sendAnswer(String token,String ans,int surveyId) async {
 
     var body = ans;
 
     try {
       Response response =
-      await api.sendRequest.post("/survey/surveyresponse",
+      await api.sendRequest.post("/survey/surveyresponse/$surveyId",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
             HttpHeaders.authorizationHeader: "Bearer $token"

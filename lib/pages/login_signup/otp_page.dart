@@ -53,7 +53,7 @@ class _OtpPageState extends State<OtpPage> {
               if (state is InvalidEmailState) {
                 context.loaderOverlay.hide();
                 SnackBar snackBar = SnackBar(
-                  content: Text(state.errorMsg.message![0]),
+                  content: Text(state.errorMsg),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
@@ -73,7 +73,7 @@ class _OtpPageState extends State<OtpPage> {
                       height: 12,
                     ),
                     const Text(
-                      "Very your Email,",
+                      "Verify your Email,",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Akshar',

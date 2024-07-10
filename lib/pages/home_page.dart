@@ -11,6 +11,7 @@ import 'package:yug_foundation_app/pages/task_page.dart';
 
 import '../domain/models/profile_response_model.dart';
 import '../utils/colors.dart';
+import 'chatbot_page.dart';
 import 'period_tracker_dashboard.dart';
 
 class HomePage extends StatefulWidget {
@@ -109,135 +110,147 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               child:
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // Align text to the left
-                children: [
-            
-            
-                  const SizedBox(height: 20),
-                  // Add spacing below the heading
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SquareButton(
-                        label: 'Sleep Tracker',
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child: const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/sleep.png",))),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SleepTrackerPage()));
-                        },
-                      ),
-                      SquareButton(
-                        label: 'Tasks',
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child:  const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/task.png",))),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const TaskPage()));
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SquareButton(
-                        label: 'Period Tracker',
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child: const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/period.png",))),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const PeriodDashboard()));
-                        },
-                      ),
-                      SquareButton(
-                        label: 'Quizzes',
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child:  const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/quiz.png",))),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const QuizHomePage()));
-                        },
-                      ),
-                    ],
-                  ),
-                  // SizedBox(height: 10,),
-                  // const Text(
-                  //   'Others',
-                  //   style: TextStyle(
-                  //       fontSize: 20, fontWeight: FontWeight.bold),
-                  // ),
-                  // const SizedBox(height: 30),
-            
-                  const SizedBox(height: 20),
-                  SquareButton(
-                    label: null,
-                    widgetHeight: null,
-                    widgetWidth: screenWidth * 0.9,
-                    onPressed: null,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Text("We at YUG Foundation work towards bringing to life and meaning to our motto Sahyog, Seva, Samarpan.",textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white,fontWeight: FontWeight.w500)),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // Align text to the left
+                  children: [
+                            
+                            
+                    const SizedBox(height: 20),
+                    // Add spacing below the heading
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SquareButton(
+                          label: 'Sleep Tracker',
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child: const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/sleep.png",))),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const SleepTrackerPage()));
+                          },
+                        ),
+                        SquareButton(
+                          label: 'Tasks',
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child:  const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/task.png",))),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const TaskPage()));
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-            
-                  SizedBox(height: 26*h),
-                  // const Expanded(child: SizedBox()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SquareButton(
-                        label: null,
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:18,top: 12 ),
-                              child: Text("Blogs",style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12),textAlign: TextAlign.left,),
-                            ),
-                            SizedBox(width: screenWidth * 0.43,),
-                            Align(alignment: Alignment.center,child: Image(image: const AssetImage("assets/blog.png",),height: screenHeight * 0.11)),
-                          ],
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SquareButton(
+                          label: 'Period Tracker',
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child: const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/period.png",))),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const PeriodDashboard()));
+                          },
                         ),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const BlogsPage()));
-                        },
-                      ),
-                      SquareButton(
-                        label: null,
-                        widgetHeight: screenHeight * 0.148,
-                        widgetWidth: screenWidth * 0.43,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:18,top: 12 ),
-                              child: Text("Survey",style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12),textAlign: TextAlign.left,),
-                            ),
-                            SizedBox(width: screenWidth * 0.43,),
-                            Align(alignment: Alignment.center,child: Image(image: const AssetImage("assets/survey.png"),height: screenHeight * 0.11,),),
-                          ],
-            
+                        SquareButton(
+                          label: 'Quizzes',
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child:  const Padding(padding: EdgeInsets.all(8),child: Image(image: AssetImage("assets/quiz.png",))),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const QuizHomePage()));
+                          },
                         ),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const SurveyHomepage()));
-                        },
+                      ],
+                    ),
+                    // SizedBox(height: 10,),
+                    // const Text(
+                    //   'Others',
+                    //   style: TextStyle(
+                    //       fontSize: 20, fontWeight: FontWeight.bold),
+                    // ),
+                    // const SizedBox(height: 30),
+                            
+                    const SizedBox(height: 20),
+                    SquareButton(
+                      label: null,
+                      widgetHeight: null,
+                      widgetWidth: screenWidth * 0.9,
+                      onPressed: null,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text("We at YUG Foundation work towards bringing to life and meaning to our motto Sahyog, Seva, Samarpan.",textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white,fontWeight: FontWeight.w500)),
                       ),
-                    ],
-                  ),
-            
-            
-                  // const Spacer(),
-            
-                  const SizedBox(height: 9),
-                  // Add spacer to push the button to the bottom
-                ],
+                    ),
+                            
+                    SizedBox(height: 26*h),
+                    // const Expanded(child: SizedBox()),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SquareButton(
+                          label: null,
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left:18,top: 12 ),
+                                child: Text("Blogs",style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12),textAlign: TextAlign.left,),
+                              ),
+                              SizedBox(width: screenWidth * 0.43,),
+                              Align(alignment: Alignment.center,child: Image(image: const AssetImage("assets/blog.png",),height: screenHeight * 0.11)),
+                            ],
+                          ),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const BlogsPage()));
+                          },
+                        ),
+                        SquareButton(
+                          label: null,
+                          widgetHeight: screenHeight * 0.148,
+                          widgetWidth: screenWidth * 0.43,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left:18,top: 12 ),
+                                child: Text("Survey",style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black,fontWeight: FontWeight.w600,fontSize: 12),textAlign: TextAlign.left,),
+                              ),
+                              SizedBox(width: screenWidth * 0.43,),
+                              Align(alignment: Alignment.center,child: Image(image: const AssetImage("assets/survey.png"),height: screenHeight * 0.11,),),
+                            ],
+                            
+                          ),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>const SurveyHomepage()));
+                          },
+                        ),
+                      ],
+                    ),
+                    // FloatingActionButton(onPressed: (){
+                    //   Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatBotWidget()));
+                    // }),
+                    const SizedBox(height: 20),
+                    SquareButton(
+                      label: null,
+                      widgetHeight: null,
+                      widgetWidth: screenWidth * 0.9,
+                      onPressed: null,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text("We have a chatbot helper coming soon!",textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white,fontWeight: FontWeight.w500)),
+                      ),
+                    ),
+
+                    const SizedBox(height: 9),
+                  ],
+                ),
               ),
               //   ],
               // ),
