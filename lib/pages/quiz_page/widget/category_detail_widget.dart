@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:yug_foundation_app/utils/colors.dart';
 
 import '../../../domain/models/quiz_response_model.dart';
@@ -29,7 +30,7 @@ class CategoryDetailWidget extends StatelessWidget {
               ),
               SizedBox(height: 4),
               Text(
-                category.created!,
+                DateFormat('d/M/y').format(DateTime.parse(category.created!)),
                 style: TextStyle(fontSize: 14),
               )
             ],

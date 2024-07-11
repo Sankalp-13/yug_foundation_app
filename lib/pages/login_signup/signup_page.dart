@@ -71,7 +71,6 @@ class _SignUpPageState extends State<SignUpPage> {
           }
 
           if (state is LoginLoadingState) {
-
             context.loaderOverlay.show();
           }
         }, builder: (context, state) {
@@ -170,6 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: 40,
                         child: TextField(
                           controller: ageController,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(8),
                               filled: true,
@@ -303,6 +303,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: 40,
                         child: TextField(
                           controller: contactController,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(8),
                               filled: true,
@@ -325,19 +326,23 @@ class _SignUpPageState extends State<SignUpPage> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5)))),
                               onPressed: () {
-                                String formattedDate =
-                                    "${DateFormat('yyyy-MM-ddThh:mm:ss.SSS').format(birthdayPicked!)}Z";
-                                print(formattedDate);
-                                BlocProvider.of<LoginCubit>(context).signUp(
-                                    emailController.text,
-                                    int.parse(ageController.text),
-                                    formattedDate,
-                                    locationController.text,
-                                    _currentSelectedValue!,
-                                    contactController.text,
-                                    "",
-                                    nameController.text);
-                              },
+                                if(birthdayPicked==null|| nameController.text==""||ageController.text==""||locationController.text==""||_currentSelectedValue==null||contactController.text==""||emailController.text==""||int.tryParse(ageController.text)==null){
+                                  _alertDialog(width,"Please fill in all details properly!");
+                                }else {
+                                  String formattedDate =
+                                      "${DateFormat('yyyy-MM-ddThh:mm:ss.SSS')
+                                      .format(birthdayPicked!)}Z";
+                                  print(formattedDate);
+                                  BlocProvider.of<LoginCubit>(context).signUp(
+                                      emailController.text,
+                                      int.parse(ageController.text),
+                                      formattedDate,
+                                      locationController.text,
+                                      _currentSelectedValue!,
+                                      contactController.text,
+                                      "",
+                                      nameController.text);
+                                }},
                               child: Center(
                                 child: const Text(
                                   "Verify Email",
@@ -357,4 +362,65 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
+
+  void _alertDialog(double screenWidth,String alert) {
+    double w = screenWidth / 390.11;
+    showGeneralDialog(
+      // barrierColor: ColorConstants.lightWidgetColor.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                // backgroundColor: ColorConstants.lightWidgetColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                title: Text(
+                  alert,
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                actionsAlignment: MainAxisAlignment.center,
+                actions: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorConstants.mainThemeColor,
+                      foregroundColor: Colors.white,
+                      // Background color
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(16))),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Okay",
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 17 * w, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Container();
+        });
+  }
+
 }
