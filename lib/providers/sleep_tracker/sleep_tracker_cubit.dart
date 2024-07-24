@@ -50,4 +50,24 @@ class SleepTrackerCubit extends Cubit<SleepTrackerState> {
       emit(SleepTrackerLoadedState(sleepTracker));
     }
   }
+
+  void addDummyData() async {
+    emit(SleepTrackerLoadingState());
+    UserSleep sleepTracker =
+    UserSleep.fromJson(jsonDecode((await storage.read(key: "sleepData"))!));
+    // if (sleepTracker.sleptAt != null) {
+      sleepTracker.days[0] = 8;
+      sleepTracker.days[1] = 6;
+      sleepTracker.days[2] = 7;
+      sleepTracker.days[3] = 9;
+      sleepTracker.days[4] = 5;
+      sleepTracker.days[5] = 8;
+      sleepTracker.days[6] = 7;
+      sleepTracker.sleptAt = null;
+      await storage.write(
+          key: 'sleepData', value: jsonEncode(sleepTracker.toJson()));
+    // }
+    emit(SleepTrackerLoadedState(sleepTracker));
+  }
+
 }

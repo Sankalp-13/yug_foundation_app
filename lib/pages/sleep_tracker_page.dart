@@ -134,6 +134,7 @@ class _SleepTrackerPageState extends State<SleepTrackerPage> {
 
   @override
   void initState() {
+    // BlocProvider.of<SleepTrackerCubit>(context).addDummyData();
     BlocProvider.of<SleepTrackerCubit>(context).checkIfAsleep();
     super.initState();
     // _initialize();
